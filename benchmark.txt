@@ -1,0 +1,15 @@
+REPOSITORY                         TAG             IMAGE ID       CREATED             SIZE
+polygot-project_node-api           latest          b5d6e6c68351   23 minutes ago      72.2MB
+polygot-project_python-analytics   latest          889563df6051   45 minutes ago      135MB
+polygot-project_nginx              latest          d4853166ba43   About an hour ago   160MB
+nginx                              alpine          ca3f6b792c95   2 weeks ago         58.2MB
+i386/nginx                         latest          eb1aa8a87e74   2 weeks ago         160MB
+i386/python                        3.11            584dcd6dbb01   2 weeks ago         1.1GB
+debian                             bookworm-slim   259823966973   3 weeks ago         76.3MB
+debian                             bullseye-slim   31b6535ef94f   3 weeks ago         81.8MB
+alpine                             latest          7228b1de3888   6 weeks ago         7.18MB
+i386/python                        3.9-slim        05e1124d25b1   9 months ago        124MB
+i386/alpine                        3.19            d61928832f42   9 months ago        6.28MB
+node                               18-alpine       ee77c6cd7c18   16 months ago       127MB
+i386/debian                        buster-slim     404d3bf06920   2 years ago         71.1MB
+i386/ubuntu                        focal           790686be2fba   6 years ago         74.2MB
