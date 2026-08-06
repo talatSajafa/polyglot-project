@@ -2,15 +2,15 @@
 
 An experimental 32-bit containerized stack (Node.js API, Python 3.11 Analytics, Nginx Proxy) built to resolve Docker Hub manifest deprecations and run on legacy `i686` hardware.
 
-## 🛠️ Hardware Constraints & Workarounds
+##  Hardware Constraints & Workarounds
 
 Running modern containers on native 32-bit (`i686`) systems triggered several low-level infrastructure failures:
 
 - **Docker Hub Manifest Errors (`linux/386`):** Standard official images drop 32-bit builds. Pinned base layers strictly to `debian:bullseye-slim`.
 - **NPM Memory Exhaustion:** Package resolution (`npm install`) hit RAM/swap limits on low-spec hardware.
-- **Binary Mismatch (Exit Code 127):** Re-aligned execution paths explicitly to `/usr/local/bin`.
+- **Exit Code 127 (RUN Command Crash):** Missing system packages in 32-bit minimal base image caused "command not found" during Dockerfile `RUN` step; resolved by installing required build dependencies explicitly via `apt-get`.
 
-## 📂 Project Structure
+##  Project Structure
 
 - `node-api/`: Node.js API (Debian 32-bit base)
 - `python-analytics/`: Python 3.11 microservice
@@ -18,7 +18,7 @@ Running modern containers on native 32-bit (`i686`) systems triggered several lo
 - `benchmark.txt`: Layer size and execution metric logs
 - `docker-compose.yml`: Multi-container orchestrator
 
-## 📊 Container Benchmarks
+##  Container Benchmarks
 
 Metrics logged during execution testing:
 
@@ -28,10 +28,10 @@ Metrics logged during execution testing:
 | Python Analytics | `polyglot-python-analytics` | 135 MB | Verified (Py 3.11) |
 | Nginx Proxy | `polyglot-nginx` | 160 MB | Operational |
 
-## 🚀 Quick Run (Pre-built Binaries)
+##  Quick Run (Pre-built Binaries)
 
 ```bash
-git clone [https://github.com/your-username/your-repo.git](https://github.com/your-username/your-repo.git)
+git clone [https://github.com/talatSajafa/polygot-project.git](https://github.com/talatSajafa/polygot-project.git)
 cd your-repo
 docker-compose up --build -d
 ```
