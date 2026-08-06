@@ -1,55 +1,40 @@
-# Polyglot 32-Bit Microservice Architecture (Archived / Legacy Research)
+# 32-Bit (i686) Container Architecture & Debugging Log
 
-An experimental 32-bit (i686) containerized architecture featuring a Node API, Python 3.11 Analytics service, and Nginx Reverse Proxy. Engineered to test physical legacy hardware constraints and resolve 32-bit Docker Hub manifest deprecations.
+An experimental 32-bit containerized stack (Node.js API, Python 3.11 Analytics, Nginx Proxy) built to resolve Docker Hub manifest deprecations and run on legacy `i686` hardware.
 
----
+## 🛠️ Hardware Constraints & Workarounds
 
-## 🏗️ Technical Breakdown & Hardware Constraints
+Running modern containers on native 32-bit (`i686`) systems triggered several low-level infrastructure failures:
 
-Standard modern container environments target 64-bit (`amd64`/`arm64`) architectures. Running this stack on native 32-bit `i686` hardware hit severe infrastructure barriers:
+- **Docker Hub Manifest Errors (`linux/386`):** Standard official images drop 32-bit builds. Pinned base layers strictly to `debian:bullseye-slim`.
+- **NPM Memory Exhaustion:** Package resolution (`npm install`) hit RAM/swap limits on low-spec hardware.
+- **Binary Mismatch (Exit Code 127):** Re-aligned execution paths explicitly to `/usr/local/bin`.
 
-1. **Manifest Mismatch Failures (`no matching manifest`):** Modern base images no longer publish `linux/386` tags on Docker Hub. Baseline dependencies were bound to `debian:bullseye-slim` to allow native execution.
-2. **Memory & Runtime Limitations:** Node runtime dependencies hit memory allocation locks during package resolution (`npm install` failure loops). Python runtime was successfully pinned to `Python 3.11`.
-3. **Execution Verification:** Full functional state and original container layer sizes were logged and validated in `benchmark.txt`.
+## 📂 Project Structure
 
----
+- `node-api/`: Node.js API (Debian 32-bit base)
+- `python-analytics/`: Python 3.11 microservice
+- `nginx/`: Reverse proxy configuration
+- `benchmark.txt`: Layer size and execution metric logs
+- `docker-compose.yml`: Multi-container orchestrator
 
-## 📂 Repository Structure
+## 📊 Container Benchmarks
 
-* `node-api/` : Node.js API service targeting 32-bit Debian environment
-* `python-analytics/` : Python 3.11 microservice container
-* `nginx/` : Nginx reverse proxy configuration
-* `benchmark.txt` : Original execution metrics & layer size validation log
-* `docker-compose.yml` : Multi-container orchestrator file
-* `README.md` : Technical documentation & post-mortem analysis
+Metrics logged during execution testing:
 
----
-
-## 📊 Recorded Benchmark Metrics
-
-Historical snapshot verified via `benchmark.txt` prior to low-spec hardware locks:
-
-| Service Name | Docker Image Name | Size | Execution State |
+| Service | Image | Size | Status |
 | :--- | :--- | :--- | :--- |
-| Node API | polygot-project_node-api | 72.2 MB | Build Memory Bound |
-| Python Analytics | polygot-project_python-analytics | 135 MB | Verified (Py 3.11) |
-| Nginx Proxy | polygot-project_nginx | 160 MB | Operational |
+| Node API | `polyglot-node-api` | 72.2 MB | Build Memory Bound |
+| Python Analytics | `polyglot-python-analytics` | 135 MB | Verified (Py 3.11) |
+| Nginx Proxy | `polyglot-nginx` | 160 MB | Operational |
 
----
+## 🚀 Quick Run (Pre-built Binaries)
 
-## ⚠️ Known Hardware & Build Issues
-
-| Issue / Error | Root Cause | Current Status / Mitigation |
-| :--- | :--- | :--- |
-| `no matching manifest for linux/386` | Docker Hub dropped 32-bit tags for modern Node images. | Resolved via `debian:bullseye-slim` base layer. |
-| **Exit Code 127** | Architecture binary path mismatch in 32-bit userland. | Paths re-aligned to `/usr/local` binaries. |
-| **Exit Code 100** | APT package index update timeouts on minimal Debian. | Resolved via package source list updates. |
-| `npm install` Hang / Stalls | RAM & swap exhaustion during dependency tree resolution on i686. | Archived; requires pre-built binary mounting. |
-
----
-
-## 📌 Project Status
-
-* Status: Archived Research / Post-Mortem Documentation
-* Validation Source: `benchmark.txt`
-* Last Updated: August 5, 2026
+```bash
+git clone [https://github.com/your-username/your-repo.git](https://github.com/your-username/your-repo.git)
+cd your-repo
+docker-compose up --build -d
+```
+# Status
+- State: Archived Debug Log 
+- Validation: Check benchmark.txt for raw logs
